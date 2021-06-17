@@ -87,12 +87,12 @@ function _assemble_document(latex_content::AbstractString; standalone=false)
         return String(latex_content)
     else
         doc = String[
-      raw"\documentclass{article}",
-      current_preamble()...,
-      raw"\begin{document}",
-      String(latex_content),
-      raw"\end{document}"
-    ]
+            raw"\documentclass{article}",
+            current_preamble()...,
+            raw"\begin{document}",
+            String(latex_content),
+            raw"\end{document}"
+        ]
         return join(doc, '\n')
     end
 end
