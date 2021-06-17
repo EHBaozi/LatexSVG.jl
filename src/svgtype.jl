@@ -8,19 +8,19 @@ This type contains the LaTeX code to be rendered, the preamble, and the rendered
 You should not need to contruct a `LaTeXSVG` object yourself; instead, render your LaTeX code with the [`latexsvg`](@ref) function, which returns a `LaTeXSVG` object.
 """
 struct LaTeXSVG{T<:AbstractString}
-  latex::T
-  pre::Vector{String}
-  svg::String
-  function LaTeXSVG(latex::T, svg::String) where T<:AbstractString
-    return new{T}(latex, deepcopy(current_preamble()), svg)
-  end
+    latex::T
+    pre::Vector{String}
+    svg::String
+    function LaTeXSVG(latex::T, svg::String) where T<:AbstractString
+        return new{T}(latex, deepcopy(current_preamble()), svg)
+    end
 end
 
 Base.show(io::IO, ::MIME"image/svg+xml", svg::LaTeXSVG) = write(io, svg.svg)
 
 function Base.print(svg::LaTeXSVG)
-  print("LaTeXSVG\n    LaTeX: $(svg.latex)\n    preamble: $(svg.pre[begin])")
-  for pre in svg.pre[begin+1:end]
-    print("\n              " * pre)
-  end
+    print("LaTeXSVG\n    LaTeX: $(svg.latex)\n    preamble: $(svg.pre[begin])")
+    for pre in svg.pre[begin + 1:end]
+        print("\n              " * pre)
+    end
 end

@@ -6,26 +6,26 @@ Renders `latex` as an svg string. `latex` is the LaTeX code that you want to ren
 If you are in an svg-capable display environment, e.g. IJulia or VS Code, the svg output is automatically rendered and displayed; otherwise, it returns a [`LaTeXSVG`](@ref) object that contains the LaTeX code, preamble, and the rendered svg string.
 """
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false)
-  temp_dir = mktempdir()
+    temp_dir = mktempdir()
 
-  filename = tempname(temp_dir; cleanup=false)
-  texfile = filename * ".tex"
-  dvifile = if engine == xelatex
-    filename * ".xdv"
-  elseif engine == pdflatex
+    filename = tempname(temp_dir; cleanup=false)
+    texfile = filename * ".tex"
+    dvifile = if engine == xelatex
+        filename * ".xdv"
+    elseif engine == pdflatex
     filename * ".dvi"
-  end
+    end
 
-  latex_document = _assemble_document(latex; standalone=standalone)
+    latex_document = _assemble_document(latex; standalone=standalone)
 
-  open(texfile, "w") do io
-    write(io, latex_document)
-  end
+    open(texfile, "w") do io
+        write(io, latex_document)
+    end
 
-  _to_dvi(texfile, engine)
+    _to_dvi(texfile, engine)
   
-  result = _to_svg(dvifile)
-  return LaTeXSVG(String(latex), result)
+    result = _to_svg(dvifile)
+    return LaTeXSVG(String(latex), result)
 end
 
 """
@@ -34,7 +34,7 @@ end
 Saves `svg` into `file`.
 """
 function savesvg(file::AbstractString, svg::LaTeXSVG)
-  open(file, "w") do io
-    write(io, svg.svg)
-  end
+    open(file, "w") do io
+        write(io, svg.svg)
+    end
 end
