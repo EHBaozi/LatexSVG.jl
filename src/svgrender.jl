@@ -1,3 +1,9 @@
+function _dvi2svg(dvi_path::AbstractString)
+    output = IOBuffer()
+    run(pipeline(`dvisvgm -p 1 "$dvi_path" -b min -n -v 0 -s`, stdout=output))
+    return String(take!(output))
+end
+
 """
     latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false)
 
@@ -8,13 +14,7 @@ If you are in an svg-capable display environment, e.g. IJulia or VS Code, the sv
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false)
     temp_dir = mktempdir()
 
-    filename = tempname(temp_dir; cleanup=false)
-    texfile = filename * ".tex"
-    dvifile = if engine == xelatex
-        filename * ".xdv"
-    elseif engine == pdflatex
-    filename * ".dvi"
-    end
+    texfile = tempname(temp_dir; cleanup=false) * "." * dvisuffix(engine)
 
     latex_document = _assemble_document(latex; standalone=standalone)
 
@@ -22,19 +22,19 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
         write(io, latex_document)
     end
 
-    _to_dvi(texfile, engine)
+    _tex2dvi(texfile, engine)
   
-    result = _to_svg(dvifile)
+    result = _dvi2svg(dvifile)
     return LaTeXSVG(String(latex), result)
 end
 
 """
-    savesvg(file::AbstractString, svg::LaTeXSVG)
+    savesvg(filepath::AbstractString, svg::LaTeXSVG)
 
-Saves `svg`. `file` is the path to the svg file.
+Saves `svg` to `filepath`.
 """
-function savesvg(file::AbstractString, svg::LaTeXSVG)
-    open(file, "w") do io
+function savesvg(filepath::AbstractString, svg::LaTeXSVG)
+    open(filepath, "w") do io
         write(io, svg.svg)
     end
 end

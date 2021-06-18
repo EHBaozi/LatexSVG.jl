@@ -1,16 +1,20 @@
 module LatexSVG
 
+using Base: String
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
-export pdflatex, xelatex, texengine, texengine!,
-       default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
-       LaTeXSVG, latexsvg, savesvg
+export
+    default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
+    LaTeXEngine, PDFLaTeX, XeLaTeX, texengine, texengine!, texcommand, dvisuffix,
+    LaTeXSVG, latexsvg, savesvg
 
-include("initialize.jl")
+
 include("latexdocument.jl")
-include("latexengine.jl")
+include("latexengines.jl")
 include("svgtype.jl")
 include("svgrender.jl")
+
+include("initialize.jl")
 
 function __init__()
     _check_latex()
