@@ -4,6 +4,7 @@ const _USE_DEFAULT_PREAMBLE = Ref(true)
 
 const _DEFAULT_PREAMBLE = String[
     raw"\usepackage{amsmath,amsthm,amssymb}",
+    raw"\usepackage{color}",
     raw"\pagestyle{empty}"
 ]
 

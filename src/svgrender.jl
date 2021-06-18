@@ -11,7 +11,7 @@ Renders `latex` as an svg string. `latex` is the LaTeX code that you want to ren
 
 If you are in an svg-capable display environment, e.g. IJulia or VS Code, the svg output is automatically rendered and displayed; otherwise, it returns a [`LaTeXSVG`](@ref) object that contains the LaTeX code, preamble, and the rendered svg string.
 """
-function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false)
+function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
 
     filename = tempname(temp_dir; cleanup=false)
@@ -24,7 +24,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
         write(io, latex_document)
     end
 
-    _tex2dvi(texfile, engine)
+    _tex2dvi(texfile, engine; extra_args=extra_args)
 
     result = _dvi2svg(dvifile)
     return LaTeXSVG(String(latex), result)
