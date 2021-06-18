@@ -31,7 +31,7 @@ end
 """
     savesvg(file::AbstractString, svg::LaTeXSVG)
 
-Saves `svg` into `file`.
+Saves `svg`. `file` is the path to the svg file.
 """
 function savesvg(file::AbstractString, svg::LaTeXSVG)
     open(file, "w") do io
