@@ -14,7 +14,9 @@ If you are in an svg-capable display environment, e.g. IJulia or VS Code, the sv
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false)
     temp_dir = mktempdir()
 
-    texfile = tempname(temp_dir; cleanup=false) * "." * dvisuffix(engine)
+    filename = tempname(temp_dir; cleanup=false)
+    texfile = filename * ".tex"
+    dvifile = filename * "." * dvisuffix(engine)
 
     latex_document = _assemble_document(latex; standalone=standalone)
 
@@ -23,7 +25,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
     end
 
     _tex2dvi(texfile, engine)
-  
+
     result = _dvi2svg(dvifile)
     return LaTeXSVG(String(latex), result)
 end
@@ -37,4 +39,5 @@ function savesvg(filepath::AbstractString, svg::LaTeXSVG)
     open(filepath, "w") do io
         write(io, svg.svg)
     end
+    return nothing
 end

@@ -4,11 +4,19 @@ const _USE_DEFAULT_PREAMBLE = Ref(true)
 
 const _DEFAULT_PREAMBLE = String[
     raw"\usepackage{amsmath,amsthm,amssymb}",
-    raw"\usepackage{color}",
     raw"\pagestyle{empty}"
 ]
 
 _CUSTOM_PREAMBLE = String[]
+
+"""
+    default_preamble()
+
+Returns the default preamble of the latex document.
+"""
+function default_preamble()
+    return _DEFAULT_PREAMBLE
+end
 
 """
     current_preamble()
@@ -18,19 +26,10 @@ Returns the current preamble of the latex document.
 function current_preamble()
     pre = String[]
     if _USE_DEFAULT_PREAMBLE[]
-        append!(pre, _DEFAULT_PREAMBLE)
+        append!(pre, default_preamble())
     end
     append!(pre, _CUSTOM_PREAMBLE)
     return pre
-end
-
-"""
-    default_preamble()
-
-Returns the default preamble of the latex document.
-"""
-function default_preamble()
-    return _DEFAULT_PREAMBLE
 end
 
 """

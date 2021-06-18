@@ -1,5 +1,5 @@
 """
-    LaTeXSVG(latex<:AbstractString, svg::String)
+    LaTeXSVG(latex::AbstractString, svg::String)
 
 This type contains the LaTeX code to be rendered, the preamble, and the rendered svg string. Objects of type `LaTeXSVG` can be rendered by any svg-capable display.
 
@@ -11,7 +11,7 @@ struct LaTeXSVG
     latex::AbstractString
     pre::Vector{String}
     svg::String
-    function LaTeXSVG(latex<:AbstractString, svg::String)
+    function LaTeXSVG(latex::AbstractString, svg::String)
         return new(latex, deepcopy(current_preamble()), svg)
     end
 end

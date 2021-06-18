@@ -1,6 +1,5 @@
 module LatexSVG
 
-using Base: String
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
 export
