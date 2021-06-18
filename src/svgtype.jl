@@ -7,12 +7,12 @@ This type contains the LaTeX code to be rendered, the preamble, and the rendered
 
 You should not need to contruct a `LaTeXSVG` object yourself; instead, render your LaTeX code with the [`latexsvg`](@ref) function, which returns a `LaTeXSVG` object.
 """
-struct LaTeXSVG{T<:AbstractString}
-    latex::T
+struct LaTeXSVG
+    latex::AbstractString
     pre::Vector{String}
     svg::String
-    function LaTeXSVG(latex::T, svg::String) where T<:AbstractString
-        return new{T}(latex, deepcopy(current_preamble()), svg)
+    function LaTeXSVG(latex<:AbstractString, svg::String)
+        return new(latex, deepcopy(current_preamble()), svg)
     end
 end
 
