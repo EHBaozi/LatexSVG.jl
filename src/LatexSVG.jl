@@ -4,12 +4,16 @@ module LatexSVG
 
 export
     default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
-    LaTeXEngine, PDFLaTeX, XeLaTeX, texengine, texengine!, texcommand, dvisuffix,
+    XeLaTeX, PDFLaTeX, texengine, texengine!,
     LaTeXSVG, latexsvg, savesvg
 
 
 include("latexdocument.jl")
-include("latexengines.jl")
+
+include("latexengines/engineinterface.jl")
+include("latexengines/xelatex.jl")
+include("latexengines/pdflatex.jl")
+
 include("svgtype.jl")
 include("svgrender.jl")
 
