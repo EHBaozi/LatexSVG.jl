@@ -4,10 +4,10 @@
 using Documenter.Utilities.DOM
 @tags span img
 
-function svgout(path, size)
+function svgout(path)
     span[:style => "display: inline-block; width: 100%"](
         img[
-            :style => "display: block; margin: auto; verticle-align: middle; height: " * string(size) * "em",
+            :style => "display: block; margin: auto",
             :src => path
         ]()
     )
@@ -31,8 +31,6 @@ svg_output = latexsvg(latex_code)
 ```
 
 The [`latexsvg`](@ref) function is the main api of this package. Here with the most simple usage, we pass a string of LaTeX code and `latexsvg` outputs a [`LaTeXSVG`](@ref) object that contains the SVG, which is automatically captured by `Documenter.jl` and rendered inline in this webpage. You can get inline rendering with any SVG-capable display environment, such as Jupyter, VS Code, or `Pluto.jl`.
-
-Notice that the SVG output you see above is not center-aligned and its size doesn't really look good. This is because it's exactly what this package intends to accomplish: outputting plain SVGs. Accordingly, the flexibility of the SVG format affords you incredible power, but it also means that regardless of what your use case is you likely need to do a bit of extra work to make it look nice. As an example, section [Embedding in a webpage](@ref) below gives some instructions about embedding and styling SVG outputs in a webpage (and in `Documenter.jl`). We will also use those instructions to style the SVGs in this documentation so that they are more comparable to `MathJax` and `KaTeX` outputs.
 
 If you are in an environment that cannot display SVG natively, such as the Julia REPL, this is what you'll see:
 
@@ -65,7 +63,7 @@ savesvg("example1.svg", svg_output); nothing # hide
 ```
 
 ```@example out
-svgout("example1.svg", 2.5) # hide
+svgout("example1.svg") # hide
 ```
 
 Now it has a much more distinct look.
@@ -78,6 +76,6 @@ Now it has a much more distinct look.
 
 ```html
 <span style="display: inline-block; width: 100%">
-    <img style="display: block; margin: auto; verticle-align: middle; height: 2.5em", src="example1.svg" />
+    <img style="display: block; margin: auto" src="example1.svg" />
 </span>
 ```

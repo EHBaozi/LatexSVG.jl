@@ -2,6 +2,9 @@ module LatexSVG
 
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
+using LightXML, FixedPointDecimals
+using URIs: escapeuri
+
 export
     default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
     XeLaTeX, PDFLaTeX, texengine, texengine!,
@@ -14,6 +17,7 @@ include("latexengines/engineinterface.jl")
 include("latexengines/xelatex.jl")
 include("latexengines/pdflatex.jl")
 
+include("svgprocessing.jl")
 include("svgtype.jl")
 include("svgrender.jl")
 
