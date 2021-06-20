@@ -5,7 +5,7 @@ module LatexSVG
 export
     default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
     XeLaTeX, PDFLaTeX, texengine, texengine!,
-    LaTeXSVG, latexsvg, savesvg
+    LaTeXSVG, latexsvg, printsvg, savesvg
 
 
 include("latexdocument.jl")

@@ -22,7 +22,7 @@ texengine() = _DEFAULT_ENGINE[]
 
 Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref), [`XeLaTeX`](@ref), or a custom-defined subtype of [`LaTeXEngine`](@ref).
 
-The following invocations are both valid and sets the LaTeX engine to `PDFLaTeX`:
+The following invocations are both valid and set the LaTeX engine to `PDFLaTeX`:
 ```julia
 texengine!(PDFLaTeX())
 ```

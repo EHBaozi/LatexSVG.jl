@@ -2,7 +2,7 @@ function _check_latex()
     if Sys.which("dvisvgm") === nothing
         error("dvisvgm not found. Your LaTeX installation should come with dvisvgm; make sure it is in your PATH.")
     end
-    for (eng, ENG) in zip(("xelatex", "pdflatex"), (XeLaTeX(), PDFLaTeX()))
+    for (eng, ENG) in zip(("pdflatex", "xelatex"), (PDFLaTeX(), XeLaTeX()))
         @debug "Looking for $eng"
         if Sys.which(eng) !== nothing
         texengine!(ENG)
@@ -10,5 +10,5 @@ function _check_latex()
         return nothing
         end
     end
-    error("Neither `xelatex` or `pdflatex` are found. Make sure that LaTeX is properly installed on your system.")
+    error("Neither `pdflatex` or `xelatex` are found. Make sure that LaTeX is properly installed on your system.")
 end
