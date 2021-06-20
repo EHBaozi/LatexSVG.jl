@@ -20,7 +20,7 @@ julia> savesvg("/path/to/file", output)
 # saves output to a file
 ```
 """
-function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_size::Int=12, standalone::Bool=false, extra_args::Vector{String}=String[])
+function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_size::Integer=12, standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
 
     filename = tempname(temp_dir; cleanup=false)
@@ -36,7 +36,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_s
     _tex2dvi(texfile, engine; extra_args=extra_args)
 
     result = _dvi2svg(dvifile)
-    return LaTeXSVG(String(latex), result)
+    return LaTeXSVG(String(latex), _adjust_svg(result))
 end
 
 """
