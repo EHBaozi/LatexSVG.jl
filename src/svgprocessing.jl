@@ -1,6 +1,8 @@
+using LightXML, FixedPointDecimals
+
 function _to_fixed_decimal(num_str::AbstractString)
     num = parse(Float64, String(num_str))
-    return FixedDecimal{Int,6}(num)  # every number in the dvisvgm svg output has 6 decimal places
+    return FixedDecimal{Int,6}(num)
 end
 
 function _adjust_dim(num_str::AbstractString)
@@ -18,9 +20,6 @@ function _adjust_viewbox(viewbox_str::AbstractString)
     return join([x, y, width, height], " ")
 end
 
-# So apparently the boundary of the svg image that dvisvgm calculates
-# is a bit too tight and can cut into the glyphs; this adds 1pt in
-# both directions to resolve this
 function _adjust_svg(svg_str::String)
     svgobject = parse_string(svg_str)
     svgroot = root(svgobject)

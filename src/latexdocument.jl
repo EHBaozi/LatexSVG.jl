@@ -82,12 +82,12 @@ end
 
 # Document
 
-function _assemble_document(latex_content::AbstractString; font_size::Integer=12, standalone=false)
+function _assemble_document(latex_content::AbstractString; standalone=false)
     if standalone
         return String(latex_content)
     else
         doc = String[
-            "\\documentclass[$(font_size)pt]{article}",
+            "\\documentclass[12pt]{article}",
             current_preamble()...,
             "\\begin{document}",
             String(latex_content),

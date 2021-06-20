@@ -1,11 +1,11 @@
 function _dvi2svg(dvi_path::AbstractString)
     output = IOBuffer()
-    run(pipeline(`dvisvgm -p 1 "$dvi_path" -b min -n -v 0 -s`, stdout=output))
+    run(pipeline(`dvisvgm -p 1 "$dvi_path" -b min -e -d 6 -n -v 0 -s`, stdout=output))
     return String(take!(output))
 end
 
 """
-    latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_size=12, standalone=false, extra_args=[])
+    latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false, extra_args=[])
 
 Renders `latex` as an svg string. `latex` is the LaTeX code that you want to render, `engine` is the LaTeX engine to use, which defaults to [`XeLaTeX`](@ref) and can be set with [`texengine!`](@ref) or passed directly as the second argument. The `font_size` keyword argument sets the font size and defaults to 12. If `standalone=true`, `font_size` keyword will be ignored and `latex` will be treated as a complete document; otherwise `latex` will be inserted into a latex document, whose preamble can be configured with [`add_preamble!`](@ref) or [`set_preamble!`](@ref) and reset with [`reset_preamble!`](@ref). You can get the default preamble with [`default_preamble`](@ref) and the current complete preamble with [`current_preamble`](@ref).
 
@@ -20,14 +20,14 @@ julia> savesvg("/path/to/file", output)
 # saves output to a file
 ```
 """
-function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_size::Integer=12, standalone::Bool=false, extra_args::Vector{String}=String[])
+function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
 
     filename = tempname(temp_dir; cleanup=false)
     texfile = filename * ".tex"
     dvifile = filename * "." * dvisuffix(engine)
 
-    latex_document = _assemble_document(latex; font_size=font_size, standalone=standalone)
+    latex_document = _assemble_document(latex; standalone=standalone)
 
     open(texfile, "w") do io
         write(io, latex_document)
@@ -36,7 +36,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); font_s
     _tex2dvi(texfile, engine; extra_args=extra_args)
 
     result = _dvi2svg(dvifile)
-    return LaTeXSVG(String(latex), _adjust_svg(result))
+    return LaTeXSVG(String(latex), result)
 end
 
 """
