@@ -6,7 +6,10 @@ using LatexSVG
 makedocs(
     modules = [LatexSVG],
     sitename = "LatexSVG.jl",
-    format = Documenter.HTML(prettyurls = false),
+    format = Documenter.HTML(
+        prettyurls = false,
+        assets = ["assets/svgtheme.css"]
+    ),
     doctest = false,
     pages = Any[
         "Introduction" => "index.md",

@@ -1,19 +1,5 @@
 # Usage
 
-```@setup out
-using Documenter.Utilities.DOM
-@tags span img
-
-function svgout(path)
-    span[:style => "display: inline-block; width: 100%"](
-        img[
-            :style => "display: block; margin: auto",
-            :src => path
-        ]()
-    )
-end
-```
-
 ## A simple example
 
 Let's begin by rendering a simple formula:
@@ -30,21 +16,21 @@ i \hbar \frac{\mathrm{d}}{\mathrm{d} t} | \phi(t) \rangle = \hat{\mathcal{H}} | 
 svg_output = latexsvg(latex_code)
 ```
 
-The [`latexsvg`](@ref) function is the main api of this package. Here with the most simple usage, we pass a string of LaTeX code and `latexsvg` outputs a [`LaTeXSVG`](@ref) object that contains the SVG, which is automatically captured by `Documenter.jl` and rendered inline in this webpage. You can get inline rendering with any SVG-capable display environment, such as Jupyter, VS Code, or `Pluto.jl`.
+The [`latexsvg`](@ref) function is the main api of this package. Here with the most simple usage, we pass a string of LaTeX code and `latexsvg` outputs a [`LaTeXSVG`](@ref) object that contains the SVG, which is automatically captured by `Documenter.jl` and rendered inline in this webpage. You can get inline rendering with any SVG- or HTML-capable display environment, such as `Documenter.jl`, Jupyter, VS Code, and `Pluto.jl`.
 
-If you are in an environment that cannot display SVG natively, such as the Julia REPL, this is what you'll see:
+If you are in an environment that cannot display SVG/HTML natively, such as the Julia REPL, this is what you'll see:
 
 ```@repl 1
 svg_output = latexsvg(latex_code)
 ```
 
-As you can see, the output also captures the LaTeX code and the preamble. In this case you can either load an SVG-capable display ([`ElectronDisplay.jl`](https://github.com/queryverse/ElectronDisplay.jl) is quite good for REPL usage) or save the output directly to a file:
+As you can see, the output also captures the LaTeX code and the preamble. In this case you can either load an SVG/HTML-capable display ([`ElectronDisplay.jl`](https://github.com/queryverse/ElectronDisplay.jl) is quite good for REPL usage) or save the output directly to a file:
 
 ```julia=repl
 julia> savesvg("/path/to/file.svg", svg_output)
 ```
 
-Now let's start customizing the output. The above example is quite boring as it simply uses the default LaTeX font which is also available in `MathJax` and `KaTeX`. Let's customize the preamble to load some LaTeX fonts:
+Now let's add some style. The above example is quite boring as it simply uses the default LaTeX font which is also available in `MathJax` and `KaTeX`. Let's customize the preamble to load some LaTeX fonts:
 
 ```@example 1
 add_preamble!(
@@ -59,11 +45,8 @@ i \hbar \frac{\mathrm{d}}{\mathrm{d} t} | \phi(t) \rangle = \hat{\mathcal{H}} | 
 """
 
 svg_output = latexsvg(latex_code)
-savesvg("example1.svg", svg_output); nothing # hide
-```
-
-```@example out
-svgout("example1.svg") # hide
+savesvg("example.svg", svg_output) # hide
+svg_output
 ```
 
 Now it has a much more distinct look.

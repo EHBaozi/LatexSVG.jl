@@ -20,7 +20,7 @@ function _adjust_viewbox(viewbox_str::AbstractString)
     return join([x, y, width, height], " ")
 end
 
-function _adjust_svg(svg_str::String)
+function _adjust_web_svg(svg_str::String)
     svgobject = parse_string(svg_str)
     svgroot = root(svgobject)
 
@@ -29,6 +29,10 @@ function _adjust_svg(svg_str::String)
     set_attribute(svgroot, "width", _adjust_dim(width))
     set_attribute(svgroot, "height", _adjust_dim(height))
 
+    # centers the svg
+    set_attribute(svgroot, "style", "display: block; margin: auto")
+
+    # add 1pt to both dimensions
     viewbox = attribute(svgroot, "viewBox")
     set_attribute(svgroot, "viewBox", _adjust_viewbox(viewbox))
 

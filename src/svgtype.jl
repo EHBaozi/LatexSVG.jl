@@ -46,10 +46,7 @@ Base.show(io::IO, ::MIME"text/plain", svg::LaTeXSVG) = print(io, svg)
 Base.show(io::IO, ::MIME"image/svg+xml", svg::LaTeXSVG) = write(io, svg.svg)
 
 function Base.show(io::IO, ::MIME"text/html", svg::LaTeXSVG)
-    write(io, "<span style=\"display: inline-block; width: 100%\">\n")
-    write(io, "<img style=\"display: block; margin: auto\" src=\"data:image/svg+xml;utf-8,")
-    # add 1pt size in both directions because somehow chromium miscalculates size with data urls
-    write(io, escapeuri(_adjust_svg(svg.svg)))
-    write(io, "\" />\n")
-    write(io, "</span>")
+    write(io, "<p><span style=\"display: inline-block; width: 100%\">\n")
+    write(io, _adjust_web_svg(svg.svg))
+    write(io, "</span></p>")
 end
