@@ -82,16 +82,16 @@ end
 
 # Document
 
-function _assemble_document(latex_content::AbstractString; standalone=false)
+function _assemble_document(latex_content::AbstractString; font_size::Integer=12, standalone=false)
     if standalone
         return String(latex_content)
     else
         doc = String[
-            raw"\documentclass{article}",
+            "\\documentclass[$(font_size)pt]{article}",
             current_preamble()...,
-            raw"\begin{document}",
+            "\\begin{document}",
             String(latex_content),
-            raw"\end{document}"
+            "\\end{document}"
         ]
         return join(doc, '\n')
     end
