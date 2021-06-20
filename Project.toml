@@ -3,9 +3,5 @@ uuid = "b81a8e73-d03d-4f31-826c-30040db55cb2"
 authors = ["Jiaqi Bao <invisibleehb@outlook.com>"]
 version = "0.2.0"
 
-[deps]
-FixedPointDecimals = "fb4d412d-6eee-574d-9565-ede6634db7b0"
-LightXML = "9c8b4983-aa76-5018-a973-4c85ecc9e179"
-
 [compat]
 julia = "1.4"
