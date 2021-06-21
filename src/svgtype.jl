@@ -1,5 +1,5 @@
 """
-    LaTeXSVG(latex::AbstractString, svg::String; standalone::Bool=false)
+    LaTeXSVG(latex::AbstractString, svg::String; standalone::Bool=false, inline::Bool=false)
 
 This type contains the LaTeX code to be rendered, the preamble, and the rendered svg string. Objects of type `LaTeXSVG` can be rendered by any svg-capable display.
 
@@ -16,13 +16,14 @@ You should not need to contruct a `LaTeXSVG` object yourself; instead, render yo
 struct LaTeXSVG
     latex::AbstractString
     standalone::Bool
+    inline::Bool
     pre::Vector{String}
     svg::String
-    function LaTeXSVG(latex::AbstractString, svg::String; standalone::Bool=false)
+    function LaTeXSVG(latex::AbstractString, svg::String; standalone::Bool=false, inline::Bool=false)
         if standalone
-            return new(latex, true, String[], svg)
+            return new(latex, true, inline, String[], svg)
         else
-            return new(latex, false, deepcopy(current_preamble()), svg)
+            return new(latex, false, inline, deepcopy(current_preamble()), svg)
         end
     end
 end
@@ -46,7 +47,13 @@ Base.show(io::IO, ::MIME"text/plain", svg::LaTeXSVG) = print(io, svg)
 Base.show(io::IO, ::MIME"image/svg+xml", svg::LaTeXSVG) = write(io, svg.svg)
 
 function Base.show(io::IO, ::MIME"text/html", svg::LaTeXSVG)
-    write(io, "<p><span style=\"display: inline-block; width: 100%\">\n")
-    write(io, _adjust_web_svg(svg.svg))
-    write(io, "</span></p>")
+    if svg.inline
+        write(io, "<span class=\"latexsvg-inline\">\n")
+        write(io, _adjust_web_svg(svg.svg, true))
+        write(io, "</span>")
+    else
+        write(io, "<p><span class=\"latexsvg-displaystyle\" style=\"display: inline-block; width: 100%\">\n")
+        write(io, _adjust_web_svg(svg.svg))
+        write(io, "</span></p>")
+    end
 end

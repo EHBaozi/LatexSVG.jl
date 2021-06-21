@@ -1,7 +1,7 @@
 function _dvi2svg(dvi_path::AbstractString)
     output = IOBuffer()
     # scale by 1.2 so that it looks better on the web
-    run(pipeline(`dvisvgm -p 1 "$dvi_path" -b min -e -d 6 --scale=1.2 --no-fonts=1 -O -v 0 -s`, stdout=output))
+    run(pipeline(`dvisvgm --page=1 "$dvi_path" --bbox=min -e --precision=6 --scale=1.2 --no-fonts=1 -O --verbosity=0 -s`, stdout=output))
     return String(take!(output))
 end
 
@@ -26,14 +26,14 @@ julia> savesvg("/path/to/file", output)
 # saves output to a file
 ```
 """
-function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); centering::Bool=true, standalone::Bool=false, extra_args::Vector{String}=String[])
+function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, inline::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
 
     filename = tempname(temp_dir; cleanup=false)
     texfile = filename * ".tex"
     dvifile = filename * "." * dvisuffix(engine)
 
-    latex_document = _assemble_document(latex; centering=centering, standalone=standalone)
+    latex_document = _assemble_document(latex; standalone=standalone)
 
     open(texfile, "w") do io
         write(io, latex_document)
@@ -42,7 +42,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); center
     _tex2dvi(texfile, engine; extra_args=extra_args)
 
     result = _dvi2svg(dvifile)
-    return LaTeXSVG(String(latex), result)
+    return LaTeXSVG(String(latex), result; standalone=standalone, inline=inline)
 end
 
 """

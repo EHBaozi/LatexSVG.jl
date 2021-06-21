@@ -1,5 +1,3 @@
-using LightXML, FixedPointDecimals
-
 function _to_fixed_decimal(num_str::AbstractString)
     num = parse(Float64, String(num_str))
     return FixedDecimal{Int,6}(num)
@@ -20,21 +18,26 @@ function _adjust_viewbox(viewbox_str::AbstractString)
     return join([x, y, width, height], " ")
 end
 
-function _adjust_web_svg(svg_str::String)
+function _adjust_web_svg(svg_str::String, inline=false)
     svgobject = parse_string(svg_str)
     svgroot = root(svgobject)
 
-    width = attribute(svgroot, "width")
-    height = attribute(svgroot, "height")
-    set_attribute(svgroot, "width", _adjust_dim(width))
-    set_attribute(svgroot, "height", _adjust_dim(height))
-
-    # centers the svg
-    set_attribute(svgroot, "style", "display: block; margin: auto")
-
     # add 1pt to both dimensions
+    width = attribute(svgroot, "width")
+    set_attribute(svgroot, "width", _adjust_dim(width))
+    set_attribute(svgroot, "height", "auto")
+
     viewbox = attribute(svgroot, "viewBox")
     set_attribute(svgroot, "viewBox", _adjust_viewbox(viewbox))
+
+    # centers the svg
+    if inline
+        set_attribute(svgroot, "style", "vertical-align: middle")
+        set_attribute(svgroot, "class", "latexsvg-inline-svg")
+    else
+        set_attribute(svgroot, "style", "display: block; margin: auto")
+        set_attribute(svgroot, "class", "latexsvg-displaystyle-svg")
+    end
 
     return string(svgobject)
 end

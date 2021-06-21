@@ -82,20 +82,15 @@ end
 
 # Document
 
-function _assemble_document(latex_content::AbstractString; centering::Bool=true, standalone::Bool=false)
+function _assemble_document(latex_content::AbstractString; standalone::Bool=false)
     if standalone
         return String(latex_content)
     else
-        if centering
-            content = "{\\centering\n" * String(latex_content) * "\n\\par}"
-        else
-            content = String(latex_content)
-        end
         doc = String[
             "\\documentclass[12pt]{article}",
             current_preamble()...,
             "\\begin{document}",
-            content,
+            String(latex_content),
             "\\end{document}"
         ]
         return join(doc, '\n')

@@ -3,7 +3,6 @@ module LatexSVG
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
 using LightXML, FixedPointDecimals
-using URIs: escapeuri
 
 export
     default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
