@@ -19,7 +19,7 @@ texengine() = _DEFAULT_ENGINE[]
 """
     texengine!(eng::Type{<:LaTeXEngine})
 
-Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref), [`XeLaTeX`](@ref), or a custom-defined subtype of [`LaTeXEngine`](@ref), e.g.
+Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
 ```julia
 texengine!(PDFLaTeX)
 ```

@@ -18,7 +18,7 @@ function _adjust_viewbox(viewbox_str::AbstractString)
     return join([x, y, width, height], " ")
 end
 
-function _adjust_web_svg(svg_str::String, inline=false)
+function _adjust_web_svg(svg_str::String)
     svgobject = parse_string(svg_str)
     svgroot = root(svgobject)
 
@@ -30,14 +30,9 @@ function _adjust_web_svg(svg_str::String, inline=false)
     viewbox = attribute(svgroot, "viewBox")
     set_attribute(svgroot, "viewBox", _adjust_viewbox(viewbox))
 
-    # centers the svg
-    if inline
-        set_attribute(svgroot, "style", "vertical-align: middle")
-        set_attribute(svgroot, "class", "latexsvg-inline-svg")
-    else
-        set_attribute(svgroot, "style", "display: block; margin: auto")
-        set_attribute(svgroot, "class", "latexsvg-displaystyle-svg")
-    end
+    # centers the svg in an HTML environment
+    set_attribute(svgroot, "style", "display: block; margin: auto")
+    set_attribute(svgroot, "class", "latexsvg-displaystyle-svg")
 
     return string(svgobject)
 end
