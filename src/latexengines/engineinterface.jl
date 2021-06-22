@@ -17,9 +17,9 @@ Returns the current LaTeX engine.
 texengine() = _DEFAULT_ENGINE[]
 
 """
-    texengine!(eng::Type{<:LaTeXEngine})
+    texengine!(eng)
 
-Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
+Sets the LaTeX engine for this session. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
 ```julia
 texengine!(PDFLaTeX)
 ```

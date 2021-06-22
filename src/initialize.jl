@@ -1,16 +1,33 @@
+"""
+    default_texengine()
+
+Returns the default LaTeX engine. By default this is unset. You can set a default with [`default_texengine!`](@ref) and your choice will persist for all future Julia sessions.
+"""
 function default_texengine()
-    preferred_engine_str = @load_preference("latexengine")
-    if preferred_engine_str == "PDFLaTeX"
-        return PDFLaTeX()
-    elseif preferred_engine_str == "XeLaTeX"
-        return XeLaTeX()
+    if @has_preference("latexengine")
+        preferred_engine_str = @load_preference("latexengine")
+        if preferred_engine_str == "PDFLaTeX"
+            return PDFLaTeX()
+        elseif preferred_engine_str == "XeLaTeX"
+            return XeLaTeX()
+        else
+            @warn "Unknown LaTeX engine $preferred_engine_str; please set a valid default LaTeX engine with `default_texengine!`."
+            return nothing
+        end
     else
-        @warn "Unknown LaTeX engine $preferred_engine_str; please set a valid default LaTeX engine with `default_texengine!`."
+        @info "You are using $(texengine()) for this session. To set it as the default for all future sessions, use the `default_texengine!` function."
+        return nothing
     end
 end
 
+"""
+    default_texengine!(eng)
+
+Sets the default LaTeX engine for this and all future Julia sessions. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref).
+"""
 function default_texengine!(::T) where T <: LaTeXEngine
     @set_preferences!("latexengine" => string(nameof(T)))
+    texengine!(T())
 end
 
 default_texengine!(::Type{T}) where T <: LaTeXEngine = default_texengine!(T())
