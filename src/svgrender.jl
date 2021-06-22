@@ -6,9 +6,9 @@ function _dvi2svg(dvi_path::AbstractString)
 end
 
 """
-    latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone=false, inline=false, extra_args=[])
+    latexsvg(latex::AbstractString, engine=texengine(); standalone=false, inline=false, extra_args=[])
 
-Renders `latex` as an svg string. `latex` is the LaTeX code that you want to render, `engine` is the LaTeX engine to use, which defaults to [`XeLaTeX`](@ref) and can be set with [`texengine!`](@ref) or passed directly as the second argument. 
+Renders `latex` as an svg string. `latex` is the LaTeX code that you want to render, `engine` is the LaTeX engine to use, which defaults to [`PDFLaTeX`](@ref) and can be set with [`texengine!`](@ref) or passed directly as the second argument. 
 
 The output can be configured with a few keyword arguments:
 - `standalone=true` assumes that `latex` is a complete document, thus the `centering` keyword and the preamble will be ignored. Otherwise (and this is the default) `latex` will be inserted into a LaTeX document, whose preamble can be configured with [`add_preamble!`](@ref) or [`set_preamble!`](@ref) and reset with [`reset_preamble!`](@ref). You can get the default preamble with [`default_preamble`](@ref) and the current complete preamble with [`current_preamble`](@ref).
@@ -43,6 +43,8 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
     result = _dvi2svg(dvifile)
     return LaTeXSVG(String(latex), result; standalone=standalone, inline=inline)
 end
+
+latexsvg(latex::AbstractString, engine::Type{T}; kwargs...) where T <: LaTeXEngine = latexsvg(latex, T(); kwargs...)
 
 """
     printsvg(svg::LaTeXSVG)

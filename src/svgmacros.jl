@@ -30,6 +30,10 @@ There is an optional flag "i" that can be passed to the macro, e.g. `Lsvg"abc"i`
 - In HTML-capable environments, the flag "i" wraps the output SVG in such a way that it is suitable for inline display, such as alongside HTML text in a paragraph. Omitting the flag, on the other hand, causes the output SVG to be displayed in its own paragraph, center-aligned.
 """
 macro Lsvg_str(s::String, inline::Union{String, Nothing}=nothing)
+    return esc(_Lsvg(s, String(__source__.file), inline))
+end
+
+function _Lsvg(s::String, filename, inline::Union{String, Nothing}=nothing)
     if inline == "i"
         s = _maybe_wrap_equation(s)
     elseif inline !== nothing
@@ -45,7 +49,7 @@ macro Lsvg_str(s::String, inline::Union{String, Nothing}=nothing)
             c = @inbounds s[i]
             if c === '$'
                 position(buf) > 0 && push!(ex.args, String(take!(buf)))
-                atom, i = Meta.parseatom(s, nextind(s, i), filename=string(__source__.file))
+                atom, i = Meta.parseatom(s, nextind(s, i), filename=filename)
                 Meta.isexpr(atom, :incomplete) && error(atom.args[1])
                 atom !== nothing && push!(ex.args, atom)
                 continue
@@ -60,5 +64,5 @@ macro Lsvg_str(s::String, inline::Union{String, Nothing}=nothing)
     if inline == "i"
         push!(ex.args, Expr(:kw, :inline, true))
     end
-    return esc(ex)
+    return ex
 end

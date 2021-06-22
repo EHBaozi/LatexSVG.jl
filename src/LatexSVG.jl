@@ -3,10 +3,11 @@ module LatexSVG
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
 using LightXML, FixedPointDecimals
+using Preferences
 
 export
     default_preamble, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
-    XeLaTeX, PDFLaTeX, texengine, texengine!,
+    PDFLaTeX, XeLaTeX, texengine, texengine!, default_texengine, default_texengine!,
     LaTeXSVG, latexsvg, printsvg, savesvg,
     @Lsvg_str
 

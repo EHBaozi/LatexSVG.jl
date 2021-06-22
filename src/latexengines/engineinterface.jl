@@ -17,16 +17,9 @@ Returns the current LaTeX engine.
 texengine() = _DEFAULT_ENGINE[]
 
 """
-    texengine!(eng::LaTeXEngine)
     texengine!(eng::Type{<:LaTeXEngine})
 
-Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref), [`XeLaTeX`](@ref), or a custom-defined subtype of [`LaTeXEngine`](@ref).
-
-The following invocations are both valid and set the LaTeX engine to `PDFLaTeX`:
-```julia
-texengine!(PDFLaTeX())
-```
-and
+Sets the LaTeX engine. `eng` can be [`PDFLaTeX`](@ref), [`XeLaTeX`](@ref), or a custom-defined subtype of [`LaTeXEngine`](@ref), e.g.
 ```julia
 texengine!(PDFLaTeX)
 ```
