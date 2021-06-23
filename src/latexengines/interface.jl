@@ -7,25 +7,8 @@ abstract type LaTeXEngine end
 
 Base.show(io::IO, ::T) where T <: LaTeXEngine = print(io, nameof(T), " engine")
 
-const _DEFAULT_ENGINE = Ref{LaTeXEngine}()
+const _CURRENT_ENGINE = Ref{LaTeXEngine}()
 
-"""
-    texengine()
-
-Returns the current LaTeX engine.
-"""
-texengine() = _DEFAULT_ENGINE[]
-
-"""
-    texengine!(eng)
-
-Sets the LaTeX engine for this session. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
-```julia
-texengine!(PDFLaTeX)
-```
-"""
-texengine!(eng::LaTeXEngine) = _DEFAULT_ENGINE[] = eng
-texengine!(::Type{T}) where T <: LaTeXEngine = texengine!(T())
 
 """
     runlatex(<:LaTeXEngine, input_file::AbstractString, output_path::AbstractString; extra_args=String[])
@@ -80,7 +63,7 @@ function dvisuffix(engine::LaTeXEngine)
     return "dvi"
 end
 
-function _tex2dvi(input_file::AbstractString, engine::LaTeXEngine=texengine(); extra_args::Vector{String}=String[])
+function _tex2dvi(input_file::AbstractString, engine::LaTeXEngine; extra_args::Vector{String}=String[])
     output_path = joinpath(splitpath(input_file)[begin:end - 1]...)
     runlatex(engine, input_file, output_path; extra_args=extra_args)
 end
