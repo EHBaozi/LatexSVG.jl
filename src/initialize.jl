@@ -14,7 +14,7 @@ end
 
 function _initialize_latexengine()
     eng = config(_DEFAULT_ENGINE_KEY; info=false)
-    if eng === nothing
+    if eng !== nothing
         if eng == "PDFLaTeX"
             texengine!(PDFLaTeX())
         elseif eng == "XeLaTeX"
