@@ -6,17 +6,16 @@ using LightXML, FixedPointDecimals
 using Preferences
 
 export
-    default_preamble, default_preamble!, current_preamble, reset_preamble!, add_preamble!, set_preamble!,
-    PDFLaTeX, XeLaTeX, texengine, texengine!, default_texengine, default_texengine!,
+    preamble, reset_preamble!, add_preamble!,
+    PDFLaTeX, XeLaTeX, texengine, texengine!,
     LaTeXSVG, latexsvg, printsvg, savesvg,
-    @Lsvg_str
+    @Lsvg_str,
+    config, config!
 
 
-include("latexdocument/latexdocument.jl")
-include("latexdocument/configurations.jl")
+include("latexdocument.jl")
 
 include("latexengines/interface.jl")
-include("latexengines/configurations.jl")
 include("latexengines/pdflatex.jl")
 include("latexengines/xelatex.jl")
 
@@ -25,6 +24,7 @@ include("svgtype.jl")
 include("svgrender.jl")
 include("svgmacros.jl")
 
+include("configurations.jl")
 include("initialize.jl")
 
 function __init__()

@@ -2,6 +2,7 @@
 
 ```@docs
 latexsvg
+@Lsvg_str
 ```
 
 ```@docs
@@ -11,16 +12,14 @@ savesvg
 ```
 
 ```@docs
-XeLaTeX
 PDFLaTeX
+XeLaTeX
 texengine
 texengine!
 ```
 
 ```@docs
-default_preamble
-current_preamble
+preamble
 add_preamble!
-set_preamble!
 reset_preamble!
 ```

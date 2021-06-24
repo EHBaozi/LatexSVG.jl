@@ -9,6 +9,28 @@ Base.show(io::IO, ::T) where T <: LaTeXEngine = print(io, nameof(T), " engine")
 
 const _CURRENT_ENGINE = Ref{LaTeXEngine}()
 
+"""
+    texengine()
+
+Returns the current LaTeX engine.
+"""
+texengine() = _CURRENT_ENGINE[]
+
+"""
+    texengine!(eng)
+
+Sets the LaTeX engine for this session. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
+```julia
+texengine!(PDFLaTeX)
+```
+"""
+function texengine!(eng::LaTeXEngine)
+    _CURRENT_ENGINE[] = eng
+    return nothing
+end
+
+texengine!(::Type{T}) where T <: LaTeXEngine = texengine!(T())
+
 
 """
     runlatex(<:LaTeXEngine, input_file::AbstractString, output_path::AbstractString; extra_args=String[])

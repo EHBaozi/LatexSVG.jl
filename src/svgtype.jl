@@ -22,7 +22,7 @@ struct LaTeXSVG
         if standalone
             return new(latex, true, String[], svg)
         else
-            return new(latex, false, deepcopy(current_preamble()), svg)
+            return new(latex, false, deepcopy(preamble()), svg)
         end
     end
 end
