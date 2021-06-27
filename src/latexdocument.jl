@@ -1,6 +1,5 @@
 # Preamble
 
-const _USE_DEFAULT_PREAMBLE = Ref(true)
 const _DEFAULT_PREAMBLE = Ref{Vector{String}}()
 _CUSTOM_PREAMBLE = String[]
 
@@ -11,9 +10,7 @@ Returns the current preamble of the LaTeX document.
 """
 function preamble()
     pre = String[]
-    if _USE_DEFAULT_PREAMBLE[]
-        append!(pre, _DEFAULT_PREAMBLE[])
-    end
+    append!(pre, _DEFAULT_PREAMBLE[])
     append!(pre, _CUSTOM_PREAMBLE)
     return pre
 end
@@ -24,7 +21,6 @@ end
 Resets the preamble to the default.
 """
 function reset_preamble!()
-    _USE_DEFAULT_PREAMBLE[] = true
     empty!(_CUSTOM_PREAMBLE)
     return preamble()
 end
@@ -32,15 +28,12 @@ end
 """
     add_preamble!(pre::AbstractString...; reset=false)
 
-Adds preamble statements to the LaTeX document. `pre` is any number of `AbstractString`s, each as a separate argument. You can pass a single multi-line string, or any number of single-line strings.
-
-Returns the complete preamble.
+Adds preamble statements to the LaTeX document. `pre` is any number of `AbstractString`s.
 
 By default this adds to the current preamble. To reset the preamble to the default before adding, set `reset=true`.
 """
-function add_preamble!(pre::AbstractString...; ignore_default::Bool=false, reset::Bool=false)
+function add_preamble!(pre::AbstractString...; reset::Bool=false)
     reset && reset_preamble!()
-    _USE_DEFAULT_PREAMBLE[] = !ignore_default
     append!(_CUSTOM_PREAMBLE, String.(pre))
     return preamble()
 end
@@ -52,14 +45,14 @@ function _assemble_document(latex_content::AbstractString; standalone::Bool=fals
     if standalone
         return String(latex_content)
     else
-        doc = String[
-            "\\documentclass[12pt]{article}",
-            preamble()...,
-            "\\pagestyle{empty}",
-            "\\begin{document}",
-            String(latex_content),
-            "\\end{document}"
-        ]
-        return join(doc, '\n')
+        doc = """
+        \\documentclass[12pt]{article}
+        $(join(preamble(), "\n"))
+        \\pagestyle{empty}
+        \\begin{document}
+        $(String(latex_content))
+        \\end{document}
+        """
+        return doc
     end
 end

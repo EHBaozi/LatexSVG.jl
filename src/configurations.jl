@@ -36,7 +36,7 @@ end
 
 Configure persistent settings for the LaTeX engine and the preamble:
 - `texengine` can be [`XeLaTeX`](@ref) or [`PDFLaTeX`](@ref)
-- `preamble` can be a string or a vector of strings.
+- `preamble` can be an `AbstractString` or a `Vector` of `AbstractString`s.
 
 Two examples:
 ```julia-repl
@@ -65,12 +65,12 @@ function config!(;
 ) where T <: LaTeXEngine
     if texengine !== nothing
         _set_default_texengine(T())
-    else
-        _set_default_texengine(LatexSVG.texengine())
     end
     if preamble !== nothing
         _set_default_preamble(preamble)
-    else
+    end
+    if texengine === nothing && preamble === nothing
+        _set_default_texengine(LatexSVG.texengine())
         _set_default_preamble(LatexSVG.preamble())
     end
     return nothing
