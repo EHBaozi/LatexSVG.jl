@@ -55,6 +55,7 @@ function _assemble_document(latex_content::AbstractString; standalone::Bool=fals
         doc = String[
             "\\documentclass[12pt]{article}",
             preamble()...,
+            "\\pagestyle{empty}",
             "\\begin{document}",
             String(latex_content),
             "\\end{document}"

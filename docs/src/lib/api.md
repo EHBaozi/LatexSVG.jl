@@ -3,10 +3,6 @@
 ```@docs
 latexsvg
 @Lsvg_str
-```
-
-```@docs
-LaTeXSVG
 printsvg
 savesvg
 ```
@@ -22,4 +18,9 @@ texengine!
 preamble
 add_preamble!
 reset_preamble!
+```
+
+```@docs
+config
+config!
 ```

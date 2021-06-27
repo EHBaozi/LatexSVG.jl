@@ -3,8 +3,7 @@ function _initialize_preamble()
     if pre === nothing
         _DEFAULT_PREAMBLE[] = [
             "\\usepackage{amsmath,amsthm,amssymb}",
-            "\\usepackage{color}",
-            "\\pagestyle{empty}"
+            "\\usepackage{color}"
         ]
     else
         _DEFAULT_PREAMBLE[] = pre
@@ -24,7 +23,7 @@ function _initialize_latexengine()
             return nothing
         end
     else
-        for (engname, ENG) in zip(("pdflatex", "xelatex"), (PDFLaTeX(), XeLaTeX()))
+        for (engname, ENG) in zip(("xelatex", "pdflatex"), (XeLaTeX(), PDFLaTeX()))
             @debug "Looking for $engname"
             if Sys.which(engname) !== nothing
                 texengine!(ENG)
