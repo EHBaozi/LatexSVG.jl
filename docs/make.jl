@@ -16,11 +16,9 @@ makedocs(
         "Guide" => [
             "man/installation.md",
             "man/usage.md",
-            "man/custom_engine.md"
         ],
         "Reference" => Any[
-            "lib/api.md",
-            "lib/interface.md"
+            "lib/api.md"
         ]
     ]
 )

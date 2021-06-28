@@ -1,18 +1,27 @@
-# Usage API
+# API
+
+## Main usage
 
 ```@docs
 latexsvg
 @Lsvg_str
-printsvg
+LaTeXSVG
 savesvg
+printsvg
 ```
 
+## Runtime configuration
+
+### LaTeX engine
+
 ```@docs
-PDFLaTeX
 XeLaTeX
-texengine
+PDFLaTeX
 texengine!
+texengine
 ```
+
+### Preamble
 
 ```@docs
 preamble
@@ -20,7 +29,9 @@ add_preamble!
 reset_preamble!
 ```
 
+## Persistent configuration
+
 ```@docs
-config
 config!
+config
 ```
