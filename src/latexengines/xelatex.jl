@@ -15,4 +15,4 @@ function runlatex(
     return command
 end
 
-dvisuffix(::XeLaTeX) = "xdv"
+dviext(::XeLaTeX) = "xdv"

@@ -7,7 +7,7 @@ using Preferences
 
 export
     preamble, reset_preamble!, add_preamble!,
-    PDFLaTeX, XeLaTeX, texengine, texengine!,
+    PDFLaTeX, XeLaTeX, LuaLaTeX, texengine, texengine!,
     LaTeXSVG, latexsvg, printsvg, savesvg,
     @Lsvg_str,
     config, config!
@@ -18,6 +18,7 @@ include("latexdocument.jl")
 include("latexengines/interface.jl")
 include("latexengines/pdflatex.jl")
 include("latexengines/xelatex.jl")
+include("latexengines/lualatex.jl")
 
 include("svgprocessing.jl")
 include("svgtype.jl")

@@ -19,7 +19,7 @@ texengine() = _CURRENT_ENGINE[]
 """
     texengine!(eng)
 
-Sets the LaTeX engine for this session. `eng` can be [`PDFLaTeX`](@ref) or [`XeLaTeX`](@ref), e.g.
+Sets the LaTeX engine for this session. `eng` can be [`PDFLaTeX`](@ref), [`XeLaTeX`](@ref), or [`LuaLaTeX`](@ref), e.g.
 ```julia
 texengine!(PDFLaTeX)
 ```
@@ -47,7 +47,7 @@ pdflatex -shell-escape -output-format=dvi -output-directory=/path/to/output/ -qu
 ```
 which creates a file `/path/to/output/input.dvi`.
 
-This package supplies two [`LaTeXEngine`](@ref)s: `PDFLaTeX` and [`XeLaTeX`](@ref). You can also define your own `LaTeXEngine`. Read the documentation to see why and how.
+This package supplies 3 [`LaTeXEngine`](@ref)s: `PDFLaTeX`, [`XeLaTeX`](@ref), and [`LuaLaTeX`](@ref). You can also define your own `LaTeXEngine`. Read the documentation to see why and how.
 
 To define your own LaTeX engine, do the following:
 
@@ -74,13 +74,13 @@ end
 """
     dvisuffix(::LaTeXEngine)
 
-Returns the file extension of the dvi output of the [`LaTeXEngine`](@ref). This is `"dvi"` for [`PDFLaTeX`](@ref) and `"xdv"` for [`XeLaTeX`](@ref). If you are using a custom-defined `LaTeXEngine`, we assume that it is `dvi`; alternatively you can define a method
+Returns the file extension of the dvi output of the [`LaTeXEngine`](@ref). This is `"dvi"` for [`PDFLaTeX`](@ref) and [`LuaLaTeX`](@ref) and `"xdv"` for [`XeLaTeX`](@ref). If you are using a custom-defined `LaTeXEngine`, we assume that it is `dvi`; alternatively you can define a method
 ```julia
 dvisuffix(::MyLaTeXEngine) = "wackydviextension"
 ```
 Make sure that the methods returns a plain `String`.
 """
-function dvisuffix(engine::LaTeXEngine)
+function dviext(engine::LaTeXEngine)
     @warn "Assuming that the dvi output has file extension \"dvi\". If this is not the case, overload the `dvisuffix` function with your custom-defined `$(nameof(typeof(engine)))`. See documentation for `dvisuffix` for details."
     return "dvi"
 end

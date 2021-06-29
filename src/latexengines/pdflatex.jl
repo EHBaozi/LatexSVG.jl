@@ -15,4 +15,4 @@ function runlatex(
     return command
 end
 
-dvisuffix(::PDFLaTeX) = "dvi"
+dviext(::PDFLaTeX) = "dvi"

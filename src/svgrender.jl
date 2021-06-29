@@ -30,7 +30,7 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
 
     filename = tempname(temp_dir; cleanup=false)
     texfile = filename * ".tex"
-    dvifile = filename * "." * dvisuffix(engine)
+    dvifile = filename * "." * dviext(engine)
 
     latex_document = _assemble_document(latex; standalone=standalone)
 

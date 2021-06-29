@@ -13,11 +13,12 @@ makedocs(
     doctest = false,
     pages = Any[
         "Introduction" => "index.md",
-        "Guide" => [
+        "Guide" => Any[
             "man/installation.md",
             "man/usage.md",
+            "man/third-party.md"
         ],
-        "Reference" => Any[
+        "Reference" => [
             "lib/api.md"
         ]
     ]

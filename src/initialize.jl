@@ -18,12 +18,14 @@ function _initialize_latexengine()
             texengine!(PDFLaTeX())
         elseif eng == "XeLaTeX"
             texengine!(XeLaTeX())
+        elseif eng == "LuaLaTeX"
+            texengine!(LuaLaTeX())
         else
             @warn "Unknown LaTeX engine $eng; please set a valid default LaTeX engine with `config!`."
             return nothing
         end
     else
-        for (engname, ENG) in zip(("xelatex", "pdflatex"), (XeLaTeX(), PDFLaTeX()))
+        for (engname, ENG) in zip(("xelatex", "pdflatex", "lualatex"), (XeLaTeX(), PDFLaTeX(), LuaLaTeX()))
             @debug "Looking for $engname"
             if Sys.which(engname) !== nothing
                 texengine!(ENG)
@@ -31,7 +33,7 @@ function _initialize_latexengine()
                 return nothing
             end
         end
-        error("Neither `pdflatex` or `xelatex` are found. Make sure that LaTeX is properly installed on your system.")
+        error("No LaTeX engine is found. Make sure that LaTeX is properly installed on your system.")
     end
 end
 

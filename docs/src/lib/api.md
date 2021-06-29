@@ -17,6 +17,7 @@ printsvg
 ```@docs
 XeLaTeX
 PDFLaTeX
+LuaLaTeX
 texengine!
 texengine
 ```

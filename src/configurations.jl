@@ -35,7 +35,7 @@ end
     config!(; texengine=nothing, preamble=nothing, export_prefs=false)
 
 Configure persistent settings for the LaTeX engine and the preamble:
-- `texengine` can be [`XeLaTeX`](@ref) or [`PDFLaTeX`](@ref)
+- `texengine` can be [`XeLaTeX`](@ref), [`PDFLaTeX`](@ref), or [`LuaLaTeX`](@ref)
 - `preamble` can be an `AbstractString` or a `Vector` of `AbstractString`s.
 
 Two examples:
