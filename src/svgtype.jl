@@ -46,7 +46,23 @@ Base.show(io::IO, ::MIME"text/plain", svg::LaTeXSVG) = print(io, svg)
 Base.show(io::IO, ::MIME"image/svg+xml", svg::LaTeXSVG) = write(io, svg.svg)
 
 function Base.show(io::IO, ::MIME"text/html", svg::LaTeXSVG)
-    write(io, "<p><span class=\"latexsvg-displaystyle\" style=\"display: inline-block; width: 100%\">\n")
+    write(io, "<span class=\"latexsvg-displaystyle\" style=\"display: inline-block; width: 100%\">\n")
     write(io, _adjust_web_svg(svg.svg))
-    write(io, "</span></p>")
+    write(io, "</span>")
+end
+
+# For the VSCode extension; the javascript adapts svg color to light/dark mode
+function Base.show(io::IO, ::MIME"juliavscode/html", svg::LaTeXSVG)
+    write(io, """
+    <script>
+    let head = document.getElementsByTagName("head")[0];
+    let style = document.createElement("style");
+    let stylestr = document.createTextNode(".vscode-dark .latexsvg-displaystyle-svg{fill:#fff}");
+    style.append(stylestr);
+    head.append(style);
+    </script>
+    """)
+    write(io, "<span class=\"latexsvg-displaystyle\" style=\"display: inline-block; width: 100%\">\n")
+    write(io, _adjust_web_svg(svg.svg))
+    write(io, "</span>")
 end
