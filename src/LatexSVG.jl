@@ -8,7 +8,7 @@ using Preferences
 export
     preamble, reset_preamble!, add_preamble!,
     PDFLaTeX, XeLaTeX, LuaLaTeX, texengine, texengine!,
-    LaTeXSVG, latexsvg, printsvg, savesvg,
+    LaTeXSVG, latexsvg, savesvg,
     @Lsvg_str,
     config, config!
 

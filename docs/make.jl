@@ -17,9 +17,6 @@ makedocs(
             "man/installation.md",
             "man/usage.md",
             "man/third-party.md"
-        ],
-        "Reference" => [
-            "lib/api.md"
         ]
     ]
 )

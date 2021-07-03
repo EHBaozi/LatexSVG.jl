@@ -41,23 +41,26 @@ Configure persistent settings for the LaTeX engine and the preamble:
 Two examples:
 ```julia-repl
 julia> config!(texengine=PDFLaTeX)
-# This sets the default LaTeX engine to be `PDFLaTeX` for all future sessions.
-
-julia> config!(preamble=["\\usepackage{physics}", "\\usepackage{siunitx}"])
-# This sets the default preamble to be
-# \\usepackage{physics}
-# \\usepackage{siunitx}
-# for all future sessions.
 ```
-You can also call `config!()` without any keyword argument. In this case your current LaTeX engine and preamble will be configured as the default.
+This sets the default LaTeX engine to be `PDFLaTeX` *for all future sessions*, replacing the original default `XeLaTeX`.
 
-By default, these preferences are stored in a `LocalPreferences.toml` file in your active project. If `export_prefs=true`, they will be written into your `Project.toml` instead. Therefore if you have multiple projects using this package you need to set the preference for them individually.
-
-If no settings are detected, the default uses `XeLaTeX` and sets the preamble to be
+```julia-repl
+julia> config!(preamble=["\\usepackage{mathtools}", "\\usepackage{xcolor}"])
+```
+This sets the default preamble to be
+```latex
+\\usepackage{mathtools}
+\\usepackage{xcolor}
+```
+*for all future sessions*, replacing the original default of
 ```latex
 \\usepackage{amsmath,amsthm,amssymb}
 \\usepackage{color}
 ```
+
+You can also call `config!()` without any keyword argument. In this case your current LaTeX engine and preamble will be stored as the default.
+
+These preferences are stored in a `LocalPreferences.toml` file in your active project. If `export_prefs=true`, they will instead be written into your `Project.toml`. Either way, if you have multiple projects using this package you need to set the preference for them individually.
 """
 function config!(;
     texengine::Union{Nothing, T, Type{T}}=nothing,

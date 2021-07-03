@@ -13,17 +13,6 @@ Renders `latex` as an SVG string. `latex` is the LaTeX code that you want to ren
 The output can be configured with a few keyword arguments:
 - If `standalone=true`, it is assumed that `latex` is a complete document, thus the preamble will be ignored. Otherwise (and this is the default) `latex` will be inserted into a LaTeX document, whose preamble can be configured with [`add_preamble!`](@ref) and reset with [`reset_preamble!`](@ref). You can get the current complete preamble with [`preamble`](@ref).
 - `extra_args` allows you to pass additional commandline flags/arguments to the LaTeX engine. For instance, if your LaTeX code contains `minted` code blocks, you would need to set `extra_args=["-shell-escape"]`.
-
-This function returns a [`LaTeXSVG`](@ref) object that contains the LaTeX code, preamble, and the SVG string. If you are in an SVG- or HTML-capable display environment, e.g. IJulia, VS Code, or Pluto.jl, the svg output is automatically rendered and displayed; you can also access the plain SVG string or save it to a file directly:
-```julia-repl
-julia> output = latexsvg(latex_string_to_render);
-julia> output.svg
-# returns the svg string
-julia> printsvg(output)
-# prints the svg string
-julia> savesvg("/path/to/file", output)
-# saves output to a file
-```
 """
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
@@ -45,13 +34,6 @@ function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standa
 end
 
 latexsvg(latex::AbstractString, engine::Type{T}; kwargs...) where T <: LaTeXEngine = latexsvg(latex, T(); kwargs...)
-
-"""
-    printsvg(svg::LaTeXSVG)
-
-Prints the rendered svg string of a `LaTeXSVG` object as plain text.
-"""
-printsvg(svg::LaTeXSVG) = println(svg.svg)
 
 """
     savesvg(filepath::AbstractString, svg::LaTeXSVG)
