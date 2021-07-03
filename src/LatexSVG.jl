@@ -2,7 +2,8 @@ module LatexSVG
 
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
-using LightXML, FixedPointDecimals
+using FixedPointDecimals
+using LightXML: parse_string, root, attribute, set_attribute
 using Preferences
 
 export
