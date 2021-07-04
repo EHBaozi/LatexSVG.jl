@@ -21,9 +21,9 @@ include("latexengines/pdflatex.jl")
 include("latexengines/xelatex.jl")
 include("latexengines/lualatex.jl")
 
-include("svgprocessing.jl")
 include("svgtype.jl")
 include("svgrender.jl")
+include("svghtmldisplay.jl")
 include("svgmacros.jl")
 
 include("configurations.jl")

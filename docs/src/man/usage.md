@@ -76,7 +76,7 @@ For example, here we can do
 ```@example 1
 add_preamble!(
     "\\usepackage[no-math]{fontspec}",
-    "\\setmainfont{TeX Gyre Pagella}",
+    "\\setmainfont{texgyrepagella}[Extension=.otf,UprightFont=*-regular,ItalicFont=*-italic,BoldFont=*-bold,BoldItalicFont=*-bolditalic]",
     "\\usepackage[euler-hat-accent,euler-digits]{eulervm}",
     "\\usepackage{physics}"
 )
@@ -145,7 +145,7 @@ As another example, so far we've left `XeLaTeX` as the LaTeX engine and configur
 
 ```toml
 [LatexSVG]
-preamble = ["\\usepackage{amsmath,amsthm,amssymb}", "\\usepackage{color}", "\\usepackage[no-math]{fontspec}", "\\setmainfont{TeX Gyre Pagella}", "\\usepackage[euler-hat-accent,euler-digits]{eulervm}", "\\usepackage{physics}"]
+preamble = ["\\usepackage{amsmath,amsthm,amssymb}", "\\usepackage{color}", "\\usepackage[no-math]{fontspec}", "\\setmainfont{texgyrepagella}[Extension=.otf,UprightFont=*-regular,ItalicFont=*-italic,BoldFont=*-bold,BoldItalicFont=*-bolditalic]", "\\usepackage[euler-hat-accent,euler-digits]{eulervm}", "\\usepackage{physics}"]
 texengine = "XeLaTeX"
 ```
 

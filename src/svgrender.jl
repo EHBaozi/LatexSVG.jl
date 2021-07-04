@@ -1,7 +1,7 @@
 function _dvi2svg(dvi_path::AbstractString)
     output = IOBuffer()
     # scale by 1.2 so that it looks better on the web
-    run(pipeline(`dvisvgm --page=1 "$dvi_path" --bbox=min -e --precision=6 --scale=1.2 --no-fonts=1 -O --verbosity=0 -s`, stdout=output))
+    run(pipeline(`dvisvgm --page=1 "$dvi_path" --bbox=min -e --precision=6 --no-fonts=1 -O --verbosity=0 -s`, stdout=output))
     return String(take!(output))
 end
 
