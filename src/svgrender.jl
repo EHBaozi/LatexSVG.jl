@@ -12,7 +12,7 @@ Renders `latex` as an SVG string. `latex` is the LaTeX code that you want to ren
 
 The output can be configured with a few keyword arguments:
 - If `standalone=true`, it is assumed that `latex` is a complete document, thus the preamble will be ignored. Otherwise (and this is the default) `latex` will be inserted into a LaTeX document, whose preamble can be configured with [`add_preamble!`](@ref) and reset with [`reset_preamble!`](@ref). You can get the current complete preamble with [`preamble`](@ref).
-- `extra_args` allows you to pass additional commandline flags/arguments to the LaTeX engine. For instance, if your LaTeX code contains `minted` code blocks, you would need to set `extra_args=["-shell-escape"]`.
+- `extra_args` allows you to pass additional commandline flags/arguments to the LaTeX engine. For instance, if your LaTeX code contains `minted` code blocks, you would need to set `extra_args=["--shell-escape"]`.
 """
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
