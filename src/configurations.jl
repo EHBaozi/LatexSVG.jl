@@ -42,7 +42,7 @@ Two examples:
 ```julia-repl
 julia> config!(texengine=PDFLaTeX)
 ```
-This sets the default LaTeX engine to be `PDFLaTeX` *for all future sessions*, replacing the original default `XeLaTeX`.
+This sets the default LaTeX engine to be `PDFLaTeX` *for all future sessions*.
 
 ```julia-repl
 julia> config!(preamble=["\\usepackage{mathtools}", "\\usepackage{xcolor}"])

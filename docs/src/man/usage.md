@@ -87,11 +87,7 @@ You can inspect the complete preamble with [`preamble`](@ref):
 preamble
 ```
 
-Here, we have:
-
-```@repl 1
-preamble()
-```
+`add_preamble!` also returns the complete preamble immediately, as shown above.
 
 Now let's render the same formula as the one in the previous section:
 
@@ -120,7 +116,7 @@ maxwell = Lsvg"""
 
 ### Changing LaTeX engine
 
-By default the [`XeLaTeX`](@ref) engine is used. You can choose from the available options with [`texengine!`](@ref):
+At load time, LatexSVG searches for `xelatex`, `pdflatex`, and `lualatex` in your PATH in order, and uses the first one it finds. You can also choose from the available options with [`texengine!`](@ref):
 
 ```@docs
 texengine!
@@ -130,7 +126,7 @@ PDFLaTeX
 LuaLaTeX
 ```
 
-Additionally, you have already seen that you can pass your LaTeX engine of choice directly to the [`latexsvg`](@ref) function, and pass extra arguments to it.
+Additionally, you can pass your LaTeX engine of choice directly to [`latexsvg`](@ref), as shown in the previous section.
 
 ### Persisting the configurations
 
@@ -155,3 +151,18 @@ You can also inspect your config with [`config`](@ref):
 ```@docs
 config
 ```
+
+## Use with other packages
+
+The [`latexsvg`](@ref) function accepts any `AbstractString` object as input. Notably, output from [LaTeXStrings.jl](https://github.com/stevengj/LaTeXStrings.jl) and [Latexify.jl](https://github.com/korsbo/Latexify.jl) work out of the box. For example, you can do
+
+```julia
+using Latexify, LatexSVG
+
+latexify(
+    [2//3  "e^(-c*t)" :(x/(x+k_1))
+     1+3im "gamma(n)" :(log10(x))], starred=true
+) |> latexsvg
+```
+
+and the latexified matrix will be nicely rendered as SVG.

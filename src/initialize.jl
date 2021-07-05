@@ -29,18 +29,19 @@ function _initialize_latexengine()
             @debug "Looking for $engname"
             if Sys.which(engname) !== nothing
                 texengine!(ENG)
-                @info "Using $engname. Use `texengine!` to change the LaTeX engine for this session, or `config!` to set the default permanently, which will also suppress this message."
+                @info "Using $engname. Use `texengine!` to change the LaTeX engine for this session, or `config!` to set the default permanently (which will also suppress this message.)"
                 return nothing
             end
         end
-        error("No LaTeX engine is found. Make sure that LaTeX is properly installed on your system.")
+        @warn "No LaTeX engine is found. Make sure that LaTeX is properly installed on your system, and `xelatex`, `pdflatex`, or `lualatex` are available in your PATH."
+        return nothing
     end
 end
 
 function _initialize_latex()
+    _initialize_latexengine()
     if Sys.which("dvisvgm") === nothing
-        error("dvisvgm not found. Your LaTeX installation should come with dvisvgm; make sure it is in your PATH.")
+        @warn "dvisvgm not found. Your LaTeX installation should come with dvisvgm; make sure it is in your PATH, since this package won't function without it."
     end
     _initialize_preamble()
-    _initialize_latexengine()
 end

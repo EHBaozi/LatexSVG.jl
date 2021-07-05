@@ -16,7 +16,6 @@ makedocs(
         "Guide" => [
             "man/installation.md",
             "man/usage.md",
-            "man/third-party.md",
             "man/htmldisplay.md"
         ]
     ]
