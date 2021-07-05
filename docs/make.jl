@@ -17,3 +17,7 @@ makedocs(
         ]
     ]
 )
+
+deploydocs(
+    repo = "github.com/EHBaozi/LatexSVG.jl.git"
+)

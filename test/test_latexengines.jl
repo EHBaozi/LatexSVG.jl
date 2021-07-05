@@ -1,5 +1,4 @@
 @testset "LaTeXEngine" begin
-    @test texengine() == XeLaTeX()
     @test begin
         texengine!(PDFLaTeX)
         texengine() == PDFLaTeX()
