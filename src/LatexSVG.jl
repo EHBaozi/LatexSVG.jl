@@ -2,7 +2,7 @@ module LatexSVG
 
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
-using FixedPointDecimals
+using Printf: @sprintf
 using EzXML: parsexml, root
 using Preferences
 

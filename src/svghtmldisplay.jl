@@ -1,11 +1,6 @@
-function _to_fixed_decimal(num_str::AbstractString)
-    num = parse(Float64, String(num_str))
-    return FixedDecimal{Int,6}(num)
-end
-
 function _adjust_web_svg_dim(num_str::AbstractString)
-    num = _to_fixed_decimal(num_str[begin:end - 2])
-    return string(num / 10) * "rem"
+    num = parse(Float64, String(num_str[begin:end - 2]))
+    return @sprintf("%.6f", num / 10) * "rem"
 end
 
 function _adjust_web_svg_display(svg_str::String)
