@@ -44,7 +44,7 @@ function Base.print(io::IO, svg::LaTeXSVG)
 
     delim = Sys.iswindows() ? "\r\n" : "\n"
     svg_split = split(svg.svg, delim, limit=8)
-    line_length = length(svg_split[begin])
+    line_length = length(svg_split[begin + 1])
     print(io, svg_split[begin], "\n")
     for line in svg_split[begin + 1:end - 1]
         print(io, "         ", _shorten(line, line_length), "\n")
@@ -59,7 +59,7 @@ function Base.print(io::IO, svg::LaTeXSVG)
     end
 
     if !svg.standalone
-        print(io, "    preamble: $(svg.pre[begin])")
+        print(io, "\n    preamble: $(svg.pre[begin])")
         for pre in svg.pre[begin + 1:end]
             print(io, "\n              " * pre)
         end

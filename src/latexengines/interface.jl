@@ -36,31 +36,6 @@ texengine!(::Type{T}) where T <: LaTeXEngine = texengine!(T())
     runlatex(<:LaTeXEngine, input_file::AbstractString, output_path::AbstractString; extra_args=String[])
 
 Compiles `input_file` into a dvi document of the same file name in `output_path`. The first argument needs to be an instance of a subtype of `LaTeXEngine` and determines the associated LaTeX command to run. The keyword argument `extra_args` is a `Vector` of `String`s that contains additional arguments/flags to pass to the LaTeX engine, and defaults to being empty. Make sure that strings in `extra_args` contain no spaces, or are otherwise valid shell arguments.
-
-As an example, `runlatex` for [`PDFLaTeX`](@ref) runs the following command:
-```julia
-`pdflatex \$extra_args -output-format=dvi -output-directory="\$output_path" -quiet -halt-on-error "\$input_file"`
-```
-thus, a call `runlatex(PDFLaTeX(), "/path/to/input.tex", "/path/to/output/"; extra_args=["-shell-escape"])` will run the command
-```sh
-pdflatex -shell-escape -output-format=dvi -output-directory=/path/to/output/ -quiet -halt-on-error /path/to/input.tex
-```
-which creates a file `/path/to/output/input.dvi`.
-
-This package supplies 3 [`LaTeXEngine`](@ref)s: `PDFLaTeX`, [`XeLaTeX`](@ref), and [`LuaLaTeX`](@ref). You can also define your own `LaTeXEngine`. Read the documentation to see why and how.
-
-To define your own LaTeX engine, do the following:
-
-First, define a singleton subtype of `LaTeXEngine`, e.g.
-```julia
-struct MyLaTeXEngine <: LaTeXEngine end
-```
-Note that `MyLaTeXEngine` has no fields.
-
-Second, overload the [`runlatex`](@ref) function with the method
-```julia
-runlatex(::MyLaTeXEngine, input_file::AbstractString, output_path::AbstractString; extra_args=String[])
-```
 """
 function runlatex(
     engine::LaTeXEngine,
@@ -68,21 +43,16 @@ function runlatex(
     output_path::AbstractString;
     extra_args::Vector{String}=String[],
 )
-    error("You need to overload the `runlatex` function with your custom-defined `$(nameof(typeof(engine)))` LaTeX engine. See the documentation of `runlatex` for details.")
+    error("You need to overload the `runlatex` function with `$(nameof(typeof(engine)))`.")
 end
 
 """
-    dvisuffix(::LaTeXEngine)
+    dviext(::LaTeXEngine)
 
-Returns the file extension of the dvi output of the [`LaTeXEngine`](@ref). This is `"dvi"` for [`PDFLaTeX`](@ref) and [`LuaLaTeX`](@ref) and `"xdv"` for [`XeLaTeX`](@ref). If you are using a custom-defined `LaTeXEngine`, we assume that it is `dvi`; alternatively you can define a method
-```julia
-dvisuffix(::MyLaTeXEngine) = "wackydviextension"
-```
-Make sure that the methods returns a plain `String`.
+Returns the file extension of the dvi output of the [`LaTeXEngine`](@ref).
 """
 function dviext(engine::LaTeXEngine)
-    @warn "Assuming that the dvi output has file extension \"dvi\". If this is not the case, overload the `dvisuffix` function with your custom-defined `$(nameof(typeof(engine)))`. See documentation for `dvisuffix` for details."
-    return "dvi"
+    error("You need to overload the `dviext` function with `$(nameof(typeof(engine)))`.")
 end
 
 function _tex2dvi(input_file::AbstractString, engine::LaTeXEngine; extra_args::Vector{String}=String[])
