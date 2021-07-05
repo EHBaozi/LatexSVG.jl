@@ -43,7 +43,7 @@ function runlatex(
     output_path::AbstractString;
     extra_args::Vector{String}=String[],
 )
-    error("You need to overload the `runlatex` function with `$(nameof(typeof(engine)))`.")
+    error("You need to overload the `runlatex` function for `$(nameof(typeof(engine)))`.")
 end
 
 """
@@ -52,7 +52,7 @@ end
 Returns the file extension of the dvi output of the [`LaTeXEngine`](@ref).
 """
 function dviext(engine::LaTeXEngine)
-    error("You need to overload the `dviext` function with `$(nameof(typeof(engine)))`.")
+    error("You need to overload the `dviext` function for `$(nameof(typeof(engine)))`.")
 end
 
 function _tex2dvi(input_file::AbstractString, engine::LaTeXEngine; extra_args::Vector{String}=String[])
