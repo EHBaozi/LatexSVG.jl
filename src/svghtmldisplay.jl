@@ -3,28 +3,42 @@ function _to_fixed_decimal(num_str::AbstractString)
     return FixedDecimal{Int,6}(num)
 end
 
-function _adjust_web_svg_width(num_str::AbstractString)
+function _adjust_web_svg_dim(num_str::AbstractString)
     num = _to_fixed_decimal(num_str[begin:end - 2])
     return string(num / 10) * "rem"
 end
 
-function _adjust_web_svg(svg_str::String)
-    svgobject = parse_string(svg_str)
+function _adjust_web_svg_display(svg_str::String)
+    svgobject = parsexml(svg_str)
     svgroot = root(svgobject)
 
-    width = attribute(svgroot, "width")
-    set_attribute(svgroot, "width", _adjust_web_svg_width(width))
-    set_attribute(svgroot, "height", "auto")
+    height = svgroot["height"]
+    svgroot["height"] = _adjust_web_svg_dim(height)
+    delete!(svgroot, "width")
 
-    set_attribute(svgroot, "style", "display: block; margin: auto; max-width: 80%")
-    set_attribute(svgroot, "class", "latexsvg-display")
+    svgroot["class"] = "latexsvg-display"
+    svgroot["style"] = "display: block; margin: auto; max-width: 80%"
+
+    return string(svgobject)
+end
+
+function _adjust_web_svg_inline(svg_str::String)
+    svgobject = parsexml(svg_str)
+    svgroot = root(svgobject)
+
+    height = svgroot["height"]
+    svgroot["height"] = _adjust_web_svg_dim(height)
+    delete!(svgroot, "width")
+
+    svgroot["class"] = "latexsvg-inline"
+    svgroot["style"] = "vertical-align: middle"
 
     return string(svgobject)
 end
 
 function Base.show(io::IO, ::MIME"text/html", svg::LaTeXSVG)
     write(io, "<p><span class=\"latexsvg-display-container\" style=\"display: inline-block; width: 100%\">\n")
-    write(io, _adjust_web_svg(svg.svg))
+    write(io, _adjust_web_svg_display(svg.svg))
     write(io, "</span></p>")
 end
 
@@ -39,6 +53,6 @@ function Base.show(io::IO, ::MIME"juliavscode/html", svg::LaTeXSVG)
     </script>
     """)
     write(io, "<p><span class=\"latexsvg-display-container\" style=\"display: inline-block; width: 100%\">\n")
-    write(io, _adjust_web_svg(svg.svg))
+    write(io, _adjust_web_svg_display(svg.svg))
     write(io, "</span></p>")
 end

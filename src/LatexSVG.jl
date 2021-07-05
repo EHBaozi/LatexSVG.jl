@@ -3,7 +3,7 @@ module LatexSVG
 @doc read(joinpath(@__DIR__, "..", "README.md"), String) LatexSVG
 
 using FixedPointDecimals
-using LightXML: parse_string, root, attribute, set_attribute
+using EzXML: parsexml, root
 using Preferences
 
 export
@@ -22,8 +22,8 @@ include("latexengines/xelatex.jl")
 include("latexengines/lualatex.jl")
 
 include("svgtype.jl")
-include("svgrender.jl")
 include("svghtmldisplay.jl")
+include("svgrender.jl")
 include("svgmacros.jl")
 
 include("configurations.jl")
