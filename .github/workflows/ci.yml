@@ -1,0 +1,66 @@
+name: CI
+on:
+    pull_request:
+        branches:
+            - master
+    push:
+        branches:
+            - master
+        tags: "*"
+    workflow_dispatch:
+
+jobs:
+    test:
+        name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                version:
+                    - "1"
+                os:
+                    - ubuntu-latest
+                arch:
+                    - x64
+        steps:
+            - uses: actions/checkout@v2
+            - uses: julia-actions/setup-julia@v1
+              with:
+                  version: ${{ matrix.version }}
+                  arch: ${{ matrix.arch }}
+            - uses: actions/cache@v1
+              env:
+                  cache-name: cache-artifacts
+              with:
+                  path: ~/.julia/artifacts
+                  key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-test-${{ env.cache-name }}-
+                      ${{ runner.os }}-test-
+                      ${{ runner.os }}-
+            - uses: julia-actions/julia-runtest@v1
+    docs:
+        name: Documentation
+        runs-on: ubuntu-20.04
+        steps:
+            - run: |
+                  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
+                  echo "deb http://miktex.org/download/ubuntu focal universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+                  sudo apt-get update
+                  sudo apt-get install miktex
+                  sudo miktexsetup --shared=yes finish
+                  sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
+                  sudo mpm --admin --update
+                  mpm --update
+            - uses: actions/checkout@v2
+            - uses: julia-actions/setup-julia@v1
+              with:
+                  version: "1"
+            - run: |
+                  julia --project=docs -e '
+                    using Pkg
+                    Pkg.develop(PackageSpec(path=pwd()))
+                    Pkg.instantiate()'
+            - run: julia --project=docs docs/make.jl
+              env:
+                  DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
