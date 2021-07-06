@@ -11,5 +11,5 @@ By default `LatexSVG.jl` loads LaTeX packages `amsmath`, `amsthm`, `amssymb`, an
 Once you have a working LaTeX installation, go ahead and install this package in the Julia REPL:
 ```julia-repl
 julia> using Pkg
-julia> Pkg.install("LatexSVG")
+julia> Pkg.add("LatexSVG")
 ```
