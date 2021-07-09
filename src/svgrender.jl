@@ -16,20 +16,14 @@ The output can be configured with a few keyword arguments:
 """
 function latexsvg(latex::AbstractString, engine::LaTeXEngine=texengine(); standalone::Bool=false, extra_args::Vector{String}=String[])
     temp_dir = mktempdir()
-
     filename = tempname(temp_dir; cleanup=false)
-    texfile = filename * ".tex"
-    dvifile = filename * "." * dviext(engine)
 
     latex_document = _assemble_document(latex; standalone=standalone)
+    write(filename * ".tex", latex_document)
 
-    open(texfile, "w") do io
-        write(io, latex_document)
-    end
-
-    _tex2dvi(texfile, engine; extra_args=extra_args)
-
+    dvifile = _tex2dvi(filename, engine; extra_args=extra_args)
     result = _dvi2svg(dvifile)
+
     return LaTeXSVG(String(latex), result; standalone=standalone)
 end
 

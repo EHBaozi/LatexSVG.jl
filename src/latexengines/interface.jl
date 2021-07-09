@@ -55,7 +55,8 @@ function dviext(engine::LaTeXEngine)
     error("You need to overload the `dviext` function for `$(nameof(typeof(engine)))`.")
 end
 
-function _tex2dvi(input_file::AbstractString, engine::LaTeXEngine; extra_args::Vector{String}=String[])
-    output_path = joinpath(splitpath(input_file)[begin:end - 1]...)
-    runlatex(engine, input_file, output_path; extra_args=extra_args)
+function _tex2dvi(filename::AbstractString, engine::LaTeXEngine; extra_args::Vector{String}=String[])
+    output_path = joinpath(splitpath(filename)[begin:end - 1]...)
+    runlatex(engine, filename * ".tex", output_path; extra_args=extra_args)
+    return filename * "." * dviext(engine)
 end
