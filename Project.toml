@@ -1,7 +1,7 @@
 name = "LatexSVG"
 uuid = "b81a8e73-d03d-4f31-826c-30040db55cb2"
 authors = ["Jiaqi Bao <invisibleehb@outlook.com>"]
-version = "0.3.0"
+version = "0.3.1"
 
 [deps]
 EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
