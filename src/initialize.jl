@@ -29,7 +29,7 @@ function _initialize_latexengine()
             @debug "Looking for $engname"
             if Sys.which(engname) !== nothing
                 texengine!(ENG)
-                @info "Using $engname. Use `texengine!` to change the LaTeX engine for this session, or `config!` to set the default permanently (which will also suppress this message.)"
+                @debug "Using $engname. Use `texengine!` to change the LaTeX engine for this session, or `config!` to set the default permanently."
                 return nothing
             end
         end
