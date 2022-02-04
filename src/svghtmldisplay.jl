@@ -51,3 +51,6 @@ function Base.show(io::IO, ::MIME"juliavscode/html", svg::LaTeXSVG)
     write(io, _adjust_web_svg_display(svg.svg))
     write(io, "</span></p>")
 end
+
+Base.show(io::IO, ::Union{MIME"application/juno+plotpane", MIME"application/prs.juno.plotpane+html"}, svg::LaTeXSVG) =
+    Base.show(io, MIME"text/html"(), svg)

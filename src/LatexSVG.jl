@@ -4,6 +4,7 @@ module LatexSVG
 
 using Printf: @sprintf
 using EzXML: parsexml, root
+using ElectronDisplay
 using Preferences
 
 export

@@ -4,11 +4,13 @@ authors = ["Jiaqi Bao <invisibleehb@outlook.com>"]
 version = "0.3.1"
 
 [deps]
+ElectronDisplay = "d872a56f-244b-5cc9-b574-2017b5b909a8"
 EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
 Preferences = "21216c6a-2e73-6563-6e65-726566657250"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
+ElectronDisplay = "1"
 EzXML = "1.1"
 Preferences = "1.1"
 julia = "1.6"
